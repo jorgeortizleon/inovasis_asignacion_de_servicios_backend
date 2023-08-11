@@ -15,7 +15,7 @@ public class UsuarioJDBC {
 	
 	//read
 	public List<Usuario> consultarUsuarios(){
-		String sql = "select * from usuarios where activo=1";
+		String sql = "select * from usuario";
 		return conexion.query(sql, new UsuarioRM());
 	}
 
@@ -24,18 +24,18 @@ public class UsuarioJDBC {
 		return conexion.queryForObject(sql,new UsuarioRM(), id);
 	}*/
 
-	//"delete"
+	/*//"delete"
 	public void desactivarUsuario(int id) {
 		String sql = "UPDATE usuarios SET activo = 0 WHERE idusuario = ?";
 		conexion.update(sql,id);
-	}
+	}*/
 
 	/*public void agregarUsuario1(Usuario user) {
 		String sql = "INSERT INTO usuario(usuario, contrasena) VALUES(?, ?)";
 		conexion.update(sql, user.getUsuario(), user.getContrasena());
 	}*/
 	
-	public boolean autenticar(String usuario, String passwd) {
+	/*public boolean autenticar(String usuario, String passwd) {
 		String sql = "SELECT COUNT(*)\r\n" + 
 				"FROM usuarios \r\n" + 
 				"WHERE correo_usuario = ? AND `contrasenia`=? AND activo=1";
@@ -53,10 +53,10 @@ public class UsuarioJDBC {
 		public Usuario obtenerId(String correo) {
 		String sql = "SELECT * FROM usuarios WHERE correo_usuario = ?";
 		return conexion.queryForObject(sql,new UsuarioRM(), correo);
-	}
+	}*/
 		
 		public Usuario autenticar2(String username, String password) {
-			String sql = "SELECT * FROM usuario WHERE UserName = ? AND Contrasena = ?";
+			String sql = "SELECT * FROM usuario WHERE UserName=? AND Contrasena=?";
 			return conexion.queryForObject(sql,new UsuarioRM(), username, password);
 		}
 		

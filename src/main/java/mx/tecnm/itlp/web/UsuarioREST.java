@@ -39,12 +39,12 @@ public class UsuarioREST {
 		return new ResponseEntity<Usuario>(resultado, HttpStatus.OK);
 	}*/
 	
-	//"delete"
+	/*//"delete"
 	@GetMapping("borrar/{id}")
 	public ResponseEntity<?> desactivarUsuario(@PathVariable int id) {
 		repo.desactivarUsuario(id);
 		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
+	}*/
 	
 	/*@PostMapping
 	public ResponseEntity<?> agregarUsuario1(@RequestBody Usuario user) {
@@ -52,7 +52,7 @@ public class UsuarioREST {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}*/
 	
-	//login
+	/*//login
 	@PostMapping("/login")
 	public ResponseEntity<?> autenticar(@RequestParam String usuario, @RequestParam String passwd){	
 		if (repo.autenticar(usuario, passwd)) {
@@ -60,9 +60,9 @@ public class UsuarioREST {
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}	
-	}
+	}*/
 	
-	//create
+	/*//create
 	@PostMapping("/crearusuario")
 	public ResponseEntity<?> crearUsuario(@RequestParam String nombre, @RequestParam String correo, @RequestParam String contrasena){	
 		repo.crearUsuario(nombre, correo, contrasena);
@@ -75,7 +75,7 @@ public class UsuarioREST {
 		Usuario resultado = null;
 		resultado = repo.obtenerId(correo);
 		return new ResponseEntity<Usuario>(resultado, HttpStatus.OK);
-	}
+	}*/
 	
 	 @PostMapping("/login2")
 		public ResponseEntity<?> autenticar2(@RequestParam String username, @RequestParam String password){	
@@ -83,7 +83,10 @@ public class UsuarioREST {
 	            Usuario usuario = repo.autenticar2(username, password);
 				return new ResponseEntity<Usuario>(usuario,HttpStatus.OK);
 			} catch (Exception e){
-				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+				System.out.println(e);
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}	
 		}
+	 
+	 
 }

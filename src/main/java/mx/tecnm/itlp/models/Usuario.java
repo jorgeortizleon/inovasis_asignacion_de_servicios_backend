@@ -10,6 +10,7 @@ public class Usuario {
 	int Estado;
 	String FechaRegistro;
 	String Contrasena;
+	
 	public int getIdUsuario() {
 		return IdUsuario;
 	}

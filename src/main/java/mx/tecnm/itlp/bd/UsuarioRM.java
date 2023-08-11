@@ -13,12 +13,12 @@ public class UsuarioRM implements RowMapper<Usuario>{
 		user.setIdUsuario(rs.getInt("IdUsuario"));
 		user.setUserName(rs.getString("UserName"));
 		user.setNombreCompleto(rs.getString("NombreCompleto"));
-		user.setCorreo(rs.getString("Corrreo"));
+		user.setCorreo(rs.getString("Correo"));
 		user.setClave(rs.getString("Clave"));
 		user.setIdRol(rs.getInt("IdRol"));
 		user.setEstado(rs.getInt("Estado"));
 		user.setFechaRegistro(rs.getString("FechaRegistro"));
-		user.setContrasena(rs.getString("Constrasena"));
+		user.setContrasena(rs.getString("Contrasena"));
 		return user;
 	}
 	

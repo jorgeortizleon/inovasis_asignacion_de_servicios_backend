@@ -77,7 +77,7 @@ public class UsuarioREST {
 		return new ResponseEntity<Usuario>(resultado, HttpStatus.OK);
 	}*/
 	
-	 @PostMapping("/login2")
+	 @PostMapping("/login")
 		public ResponseEntity<?> autenticar2(@RequestParam String username, @RequestParam String password){	
 			try{
 	            Usuario usuario = repo.autenticar2(username, password);

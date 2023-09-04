@@ -35,7 +35,7 @@ public class UsuarioJDBC {
 		conexion.update(sql, user.getUsuario(), user.getContrasena());
 	}*/
 	
-	/*public boolean autenticar(String usuario, String passwd) {
+	/*public boolean autenticaor(String usuario, String passwd) {
 		String sql = "SELECT COUNT(*)\r\n" + 
 				"FROM usuarios \r\n" + 
 				"WHERE correo_usuario = ? AND `contrasenia`=? AND activo=1";

@@ -1,23 +1,39 @@
 package mx.tecnm.itlp.models;
 
-public class Usuario {
-	int IdUsuario;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class UsuarioTable {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int IdUsuario;
+	int IdRol;
 	String UserName;
 	String NombreCompleto;
 	String Correo;
 	String Clave;
-	int IdRol;
 	int Estado;
 	String FechaRegistro;
 	String Contrasena;
 	private String nombreRol;
-	
-	public int getIdUsuario() {
-		return IdUsuario;
+    private String confirmarContrasena; 
+    
+    public int getIdUsuario() {
+        return IdUsuario;
+    }
+	public int getIdRol() {
+		return IdRol;
 	}
-	public void setIdUsuario(int idUsuario) {
-		IdUsuario = idUsuario;
+
+	public void setIdRol(int idRol) {
+		IdRol = idRol;
 	}
+    public void setIdUsuario(int idUsuario) {
+        this.IdUsuario = idUsuario;
+    }
 	public String getUserName() {
 		return UserName;
 	}
@@ -42,12 +58,7 @@ public class Usuario {
 	public void setClave(String clave) {
 		Clave = clave;
 	}
-	public int getIdRol() {
-		return IdRol;
-	}
-	public void setIdRol(int idRol) {
-		IdRol = idRol;
-	}
+
 	public int getEstado() {
 		return Estado;
 	}
@@ -72,7 +83,13 @@ public class Usuario {
 	public void setNombreRol(String nombreRol) {
 		this.nombreRol = nombreRol;
 	}
-	
-	
-	
+	public String getConfirmarContrasena() {
+		return confirmarContrasena;
+	}
+	public void setConfirmarContrasena(String confirmarContrasena) {
+		this.confirmarContrasena = confirmarContrasena;
+	}
+
+
+
 }

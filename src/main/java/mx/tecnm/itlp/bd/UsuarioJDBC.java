@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import mx.tecnm.itlp.models.Usuario;
+import mx.tecnm.itlp.models.UsuarioTable;
 
 @Repository
 public class UsuarioJDBC {
@@ -14,11 +15,36 @@ public class UsuarioJDBC {
 	JdbcTemplate conexion;
 	
 	//read
-	public List<Usuario> consultarUsuarios(){
-		String sql = "select * from usuario";
-		return conexion.query(sql, new UsuarioRM());
+	public List<UsuarioTable> consultarUsuariosParaTable() {
+	    String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, r.IdRol, r.Descripcion AS nombreRol, u.Estado, u.FechaRegistro, u.Contrasena "
+                + "FROM Usuario u "
+                + "JOIN Rol r ON u.IdRol = r.IdRol";
+	    return conexion.query(sql, new UsuarioTableRM());
+	}
+	
+	// Método para editar un usuario por su ID
+	public void editarUsuario(UsuarioTable usuarioTable, int id) {
+	    String sql = "UPDATE usuario SET UserName = ?, NombreCompleto = ?, Correo = ?, IdRol = ?, Contrasena = ? WHERE IdUsuario = ?";
+	    conexion.update(sql, usuarioTable.getUserName(), usuarioTable.getNombreCompleto(), usuarioTable.getCorreo(), usuarioTable.getIdRol(), usuarioTable.getContrasena(), id);
+	}
+	
+	//delate
+	public void marcarUsuarioComoInactivo(int idUsuario) {
+	    String sql = "UPDATE Usuario SET Activo = 0 WHERE IdUsuario = ?";
+	    conexion.update(sql, idUsuario);
 	}
 
+	
+	
+	/*/////////////////////////////////////////////////////////////
+	public List<Usuario> consultarUsuarios(){
+		String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, r.Descripcion AS IdRol, u.Estado, u.FechaRegistro, u.Contrasena\r\n"
+				+ "FROM Usuario u\r\n"
+				+ "JOIN Rol r ON u.IdRol = r.IdRol;\r\n";
+		return conexion.query(sql, new UsuarioRM());
+	}
+*/
+	//////////////////////////////////////////////////////
 	/*public Usuario buscarUsuario(int id) {
 		String sql = "SELECT * FROM usuarios WHERE idusuario = ?";
 		return conexion.queryForObject(sql,new UsuarioRM(), id);
@@ -60,5 +86,9 @@ public class UsuarioJDBC {
 			return conexion.queryForObject(sql,new UsuarioRM(), username, password);
 		}
 		
-		
+		public void crearUsuario(String userName, String nombreCompleto, String correo, int idRol, String contrasena) {
+		    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena) VALUES (?, ?, ?, ?, ?)";
+		    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena);
+		}
+
 }

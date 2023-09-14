@@ -66,6 +66,29 @@ public class ClienteREST {
 	    }
 	 }
 	
+	@GetMapping("/numTotalClientes")
+    public ResponseEntity<?> numTotalClientes() {
+        int totalClientes = repo.numTotalClientes();
+        return new ResponseEntity<>(totalClientes, HttpStatus.OK);
+    }
+	
+	@GetMapping("/clientesActivos")
+	public ResponseEntity<?> clientesActivos() {
+	    int totalClientesActivos = repo.numClientesActivos();
+	    return new ResponseEntity<>(totalClientesActivos, HttpStatus.OK);
+	}
+	
+	@GetMapping("/clientesBorrados")
+	public ResponseEntity<?> clientesInactivos() {
+	    int totalClientesInactivos = repo.numClientesBorrados();
+	    return new ResponseEntity<>(totalClientesInactivos, HttpStatus.OK);
+	}
+	
+	@GetMapping("/razonsocialClienteReciente")
+	public ResponseEntity<?> razonsocialClienteReciente() {
+	    String razonsocialCliente = repo.razonsocialClienteReciente();
+	    return new ResponseEntity<>(razonsocialCliente, HttpStatus.OK);
+	}
 	
 }
  

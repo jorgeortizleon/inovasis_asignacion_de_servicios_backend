@@ -33,9 +33,41 @@ public class ClienteJDBC {
 	}
 	
 	//update
-		public void modificarCliente(ClienteDTO clientedto, int id) {
-			String sql = "UPDATE cliente SET Codigo = ?, RazonSocial = ?, Correo = ?, Telefono = ?, Estado = ? WHERE IdCliente = ?;";
-			conexion.update(sql, clientedto.getCodigo(), clientedto.getRazonSocial(), clientedto.getCorreo(), clientedto.getTelefono(), clientedto.getEstado(), id );
-		}
+	public void modificarCliente(ClienteDTO clientedto, int id) {
+		String sql = "UPDATE cliente SET Codigo = ?, RazonSocial = ?, Correo = ?, Telefono = ?, Estado = ? WHERE IdCliente = ?;";
+		conexion.update(sql, clientedto.getCodigo(), clientedto.getRazonSocial(), clientedto.getCorreo(), clientedto.getTelefono(), clientedto.getEstado(), id );
+	}
 		
+	// obtener numero total de clientes activos (no borrados)
+	public int numTotalClientes() {
+		String sql = "SELECT COUNT(*) as total_clientes \r\n" + 
+				"FROM cliente \r\n" + 
+				"WHERE activo = 1;";
+		return conexion.queryForObject(sql, Integer.class);
+	}
+	
+	// obtener numero de clientes activos (estado === 1)
+	public int numClientesActivos() {
+	    String sql = "SELECT COUNT(*) as total_clientes "
+	                 + "FROM cliente "
+	                 + "WHERE activo = 1 AND estado = 1;";
+	    return conexion.queryForObject(sql, Integer.class);
+	}
+	
+	// obtener el numerod e clintes borrados 
+	public int numClientesBorrados() {
+	    String sql = "SELECT COUNT(*) as total_clientes "
+	                 + "FROM cliente "
+	                 + "WHERE activo = 0;";
+	    return conexion.queryForObject(sql, Integer.class);
+	}
+	
+	// retorna el nombre del ultimo cliente que se registro
+	public String razonsocialClienteReciente() {
+	    String sql = "SELECT c.RazonSocial "
+	                 + "FROM cliente c "
+	                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM cliente);";
+	    return conexion.queryForObject(sql, String.class);
+	}
+			
 }

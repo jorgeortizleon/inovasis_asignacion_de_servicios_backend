@@ -18,6 +18,7 @@ public class UsuarioTable {
 	int Estado;
 	String FechaRegistro;
 	String Contrasena;
+	int Activo;
 	private String nombreRol;
     private String confirmarContrasena; 
     
@@ -88,6 +89,12 @@ public class UsuarioTable {
 	}
 	public void setConfirmarContrasena(String confirmarContrasena) {
 		this.confirmarContrasena = confirmarContrasena;
+	}
+	public int getActivo() {
+        return Activo;
+    }
+	public void setActivo(int activo) {
+		Activo = activo;
 	}
 
 

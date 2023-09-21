@@ -16,7 +16,7 @@ public class UsuarioJDBC {
 	
 	//read
 	public List<UsuarioTable> consultarUsuariosParaTable() {
-	    String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, r.IdRol, r.Descripcion AS nombreRol, u.Estado, u.FechaRegistro, u.Contrasena "
+	    String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, r.IdRol, r.Descripcion AS nombreRol, u.Estado, u.FechaRegistro, u.Contrasena, u.Activo "
                 + "FROM Usuario u "
                 + "JOIN Rol r ON u.IdRol = r.IdRol";
 	    return conexion.query(sql, new UsuarioTableRM());
@@ -90,5 +90,36 @@ public class UsuarioJDBC {
 		    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena) VALUES (?, ?, ?, ?, ?)";
 		    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena);
 		}
+		// obtener numero total de clientes activos (no borrados)
+				public int numTotalUsuarios() {
+					String sql = "SELECT COUNT(*) as total_usuarios \r\n" + 
+							"FROM usuario \r\n" + 
+							"WHERE activo = 1;";
+					return conexion.queryForObject(sql, Integer.class);
+				}
+				
+				// obtener numero de clientes activos (estado === 1)
+				public int numUsuariossActivos() {
+				    String sql = "SELECT COUNT(*) as total_usuarios "
+				                 + "FROM usuario "
+				                 + "WHERE activo = 1 AND Estado = 1;";
+				    return conexion.queryForObject(sql, Integer.class);
+				}
+				
+				// obtener el numerod e clintes borrados 
+				public int numUsuariosBorrados() {
+				    String sql = "SELECT COUNT(*) as total_usuarios "
+				                 + "FROM usuario "
+				                 + "WHERE activo = 0;";
+				    return conexion.queryForObject(sql, Integer.class);
+				}
+				
+				// retorna el nombre del ultimo cliente que se registro
+				public String nombreUsuarioReciente() {
+				    String sql = "SELECT u.UserName "
+				                 + "FROM usuario u "
+				                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM usuario);";
+				    return conexion.queryForObject(sql, String.class);
+				}
 
 }

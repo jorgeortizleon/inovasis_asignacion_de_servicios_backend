@@ -8,6 +8,13 @@ public class Usuario {
 	String Clave;
 	int IdRol;
 	int Estado;
+	int Activo;
+	public int getActivo() {
+		return Activo;
+	}
+	public void setActivo(int activo) {
+		Activo = activo;
+	}
 	String FechaRegistro;
 	String Contrasena;
 	private String nombreRol;

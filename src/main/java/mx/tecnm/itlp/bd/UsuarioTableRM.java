@@ -20,7 +20,7 @@ public class UsuarioTableRM implements RowMapper<UsuarioTable> {
      userTable.setEstado(rs.getInt("Estado"));
      userTable.setFechaRegistro(rs.getString("FechaRegistro"));
      userTable.setContrasena(rs.getString("Contrasena"));
-     
+     userTable.setActivo(rs.getInt("Activo"));
      
      
      return userTable;

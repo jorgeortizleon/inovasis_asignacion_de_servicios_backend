@@ -139,6 +139,30 @@ public class UsuarioREST {
 	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	     }
 	 }
+	 
+	 @GetMapping("/numTotalUsuarios")
+	    public ResponseEntity<?> numTotalUsuarios() {
+	        int totalUsuarios = repo.numTotalUsuarios();
+	        return new ResponseEntity<>(totalUsuarios, HttpStatus.OK);
+	    }
+		
+		@GetMapping("/usuariosActivos")
+		public ResponseEntity<?> usuariosActivos() {
+		    int totalUsuariosActivos = repo.numTotalUsuarios();
+		    return new ResponseEntity<>(totalUsuariosActivos, HttpStatus.OK);
+		}
+		
+		@GetMapping("/usuariosBorrados")
+		public ResponseEntity<?> usuariosInactivos() {
+		    int totalUsuariosInactivos = repo.numUsuariosBorrados();
+		    return new ResponseEntity<>(totalUsuariosInactivos, HttpStatus.OK);
+		}
+		
+		@GetMapping("/nombreUsuarioReciente")
+		public ResponseEntity<?> nombreUsuarioReciente() {
+		    String nombreUsuario = repo.nombreUsuarioReciente();
+		    return new ResponseEntity<>(nombreUsuario, HttpStatus.OK);
+		}
 
 
 	 

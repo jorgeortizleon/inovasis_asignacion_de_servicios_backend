@@ -16,7 +16,7 @@ public class UsuarioJDBC {
 	
 	//read
 	public List<UsuarioTable> consultarUsuariosParaTable() {
-	    String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, r.IdRol, r.Descripcion AS nombreRol, u.Estado, u.FechaRegistro, u.Contrasena, u.Activo "
+	    String sql = "SELECT u.IdUsuario, u.UserName, u.NombreCompleto, u.Correo, u.Clave, u.IdRol, r.Descripcion AS nombreRol, u.Estado, u.FechaRegistro, u.Contrasena, u.Activo "
                 + "FROM Usuario u "
                 + "JOIN Rol r ON u.IdRol = r.IdRol";
 	    return conexion.query(sql, new UsuarioTableRM());
@@ -24,8 +24,8 @@ public class UsuarioJDBC {
 	
 	// Método para editar un usuario por su ID
 	public void editarUsuario(UsuarioTable usuarioTable, int id) {
-	    String sql = "UPDATE usuario SET UserName = ?, NombreCompleto = ?, Correo = ?, IdRol = ?, Contrasena = ? WHERE IdUsuario = ?";
-	    conexion.update(sql, usuarioTable.getUserName(), usuarioTable.getNombreCompleto(), usuarioTable.getCorreo(), usuarioTable.getIdRol(), usuarioTable.getContrasena(), id);
+	    String sql = "UPDATE usuario SET UserName = ?, NombreCompleto = ?, Correo = ?, IdRol = ?, Contrasena = ?, Estado = ? WHERE IdUsuario = ?";
+	    conexion.update(sql, usuarioTable.getUserName(), usuarioTable.getNombreCompleto(), usuarioTable.getCorreo(), usuarioTable.getIdRol(), usuarioTable.getContrasena(),usuarioTable.getEstado() ,id);
 	}
 	
 	//delate
@@ -86,9 +86,9 @@ public class UsuarioJDBC {
 			return conexion.queryForObject(sql,new UsuarioRM(), username, password);
 		}
 		
-		public void crearUsuario(String userName, String nombreCompleto, String correo, int idRol, String contrasena) {
-		    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena) VALUES (?, ?, ?, ?, ?)";
-		    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena);
+		public void crearUsuario(String userName, String nombreCompleto, String correo, int idRol, String contrasena, int estado) {
+		    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
+		    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena, estado);
 		}
 		// obtener numero total de clientes activos (no borrados)
 				public int numTotalUsuarios() {

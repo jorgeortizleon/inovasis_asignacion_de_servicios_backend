@@ -15,6 +15,7 @@ public class UsuarioTableRM implements RowMapper<UsuarioTable> {
      userTable.setCorreo(rs.getString("Correo"));
      userTable.setNombreRol(rs.getString("nombreRol"));
      userTable.setEstado(rs.getInt("Estado"));
+     userTable.setIdRol(rs.getInt("IdRol"));
      userTable.setIdUsuario(rs.getInt("IdUsuario"));
      userTable.setClave(rs.getString("Clave"));
      userTable.setEstado(rs.getInt("Estado"));

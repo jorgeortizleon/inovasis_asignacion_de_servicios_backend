@@ -107,7 +107,7 @@ public class UsuarioREST {
 	 //crear
 	 @PostMapping("/crear")
 	 public ResponseEntity<Void> crearUsuario(@RequestBody UsuarioTable usuario) {
-	     usuarioJDBC.crearUsuario(usuario.getUserName(), usuario.getNombreCompleto(), usuario.getCorreo(), usuario.getIdRol(), usuario.getContrasena());
+	     usuarioJDBC.crearUsuario(usuario.getUserName(), usuario.getNombreCompleto(), usuario.getCorreo(), usuario.getIdRol(), usuario.getContrasena(), usuario.getEstado());
 	     return ResponseEntity.status(HttpStatus.CREATED).build();
 	 }
 	 

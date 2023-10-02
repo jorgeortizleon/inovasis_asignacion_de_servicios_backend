@@ -17,7 +17,4 @@ public class ClienteDTORM implements RowMapper<ClienteDTO>{
 		clientedto.setEstado(rs.getInt("Estado"));
 		return clientedto;
 	}
-	
-	
-	
 }

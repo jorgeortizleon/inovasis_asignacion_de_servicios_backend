@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import mx.tecnm.itlp.bd.ClienteJDBC;
 import mx.tecnm.itlp.models.Cliente;
 import mx.tecnm.itlp.models.ClienteDTO;
+import mx.tecnm.itlp.models.NombreIdClienteDTO;
 
 @RestController
 @RequestMapping("/clientes")
@@ -90,5 +91,11 @@ public class ClienteREST {
 	    return new ResponseEntity<>(razonsocialCliente, HttpStatus.OK);
 	}
 	
+	@GetMapping("/NombreId")
+	public ResponseEntity<?> recuperarNombreIdClientes(){
+		List<NombreIdClienteDTO> resultado = null;
+		resultado = repo.recuperarNombreIdClientes();
+		return new ResponseEntity<List<NombreIdClienteDTO>>(resultado, HttpStatus.OK);
+	}
 }
  

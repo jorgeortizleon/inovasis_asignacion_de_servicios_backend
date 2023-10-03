@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.UsuarioJDBC;
+import mx.tecnm.itlp.models.NombreIdUsuarioDTO;
 import mx.tecnm.itlp.models.Usuario;
 import mx.tecnm.itlp.models.UsuarioTable;
 
@@ -163,7 +164,10 @@ public class UsuarioREST {
 		    String nombreUsuario = repo.nombreUsuarioReciente();
 		    return new ResponseEntity<>(nombreUsuario, HttpStatus.OK);
 		}
-
-
-	 
+		
+		@GetMapping("/nombreId")
+		public ResponseEntity<?> consultarNombreIdUsuario(){
+		    List<NombreIdUsuarioDTO> resultado = repo.consultarNombreIdUsuario();
+		    return new ResponseEntity<List<NombreIdUsuarioDTO>>(resultado, HttpStatus.OK);
+		}
 }

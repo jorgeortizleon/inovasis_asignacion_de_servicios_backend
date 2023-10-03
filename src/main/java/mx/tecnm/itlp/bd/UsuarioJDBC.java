@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import mx.tecnm.itlp.models.NombreIdUsuarioDTO;
 import mx.tecnm.itlp.models.Usuario;
 import mx.tecnm.itlp.models.UsuarioTable;
 
@@ -81,45 +82,51 @@ public class UsuarioJDBC {
 		return conexion.queryForObject(sql,new UsuarioRM(), correo);
 	}*/
 		
-		public Usuario autenticar2(String username, String password) {
-			String sql = "SELECT * FROM usuario WHERE UserName=? AND Contrasena=?";
-			return conexion.queryForObject(sql,new UsuarioRM(), username, password);
-		}
-		
-		public void crearUsuario(String userName, String nombreCompleto, String correo, int idRol, String contrasena, int estado) {
-		    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
-		    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena, estado);
-		}
-		// obtener numero total de clientes activos (no borrados)
-				public int numTotalUsuarios() {
-					String sql = "SELECT COUNT(*) as total_usuarios \r\n" + 
-							"FROM usuario \r\n" + 
-							"WHERE activo = 1;";
-					return conexion.queryForObject(sql, Integer.class);
-				}
+	public Usuario autenticar2(String username, String password) {
+		String sql = "SELECT * FROM usuario WHERE UserName=? AND Contrasena=?";
+		return conexion.queryForObject(sql,new UsuarioRM(), username, password);
+	}
+	
+	public void crearUsuario(String userName, String nombreCompleto, String correo, int idRol, String contrasena, int estado) {
+	    String sql = "INSERT INTO usuario (UserName, NombreCompleto, Correo, IdRol, Contrasena, estado) VALUES (?, ?, ?, ?, ?, ?)";
+	    conexion.update(sql, userName, nombreCompleto, correo, idRol, contrasena, estado);
+	}
+	
+	// obtener numero total de clientes activos (no borrados)
+	public int numTotalUsuarios() {
+		String sql = "SELECT COUNT(*) as total_usuarios \r\n" + 
+				"FROM usuario \r\n" + 
+				"WHERE activo = 1;";
+		return conexion.queryForObject(sql, Integer.class);
+	}
 				
-				// obtener numero de clientes activos (estado === 1)
-				public int numUsuariossActivos() {
-				    String sql = "SELECT COUNT(*) as total_usuarios "
-				                 + "FROM usuario "
-				                 + "WHERE activo = 1 AND Estado = 1;";
-				    return conexion.queryForObject(sql, Integer.class);
-				}
+	// obtener numero de clientes activos (estado === 1)
+	public int numUsuariossActivos() {
+	    String sql = "SELECT COUNT(*) as total_usuarios "
+	                 + "FROM usuario "
+		                + "WHERE activo = 1 AND Estado = 1;";
+	    return conexion.queryForObject(sql, Integer.class);
+	}
 				
-				// obtener el numerod e clintes borrados 
-				public int numUsuariosBorrados() {
-				    String sql = "SELECT COUNT(*) as total_usuarios "
-				                 + "FROM usuario "
-				                 + "WHERE activo = 0;";
-				    return conexion.queryForObject(sql, Integer.class);
-				}
+	// obtener el numerod e clintes borrados 
+	public int numUsuariosBorrados() {
+	    String sql = "SELECT COUNT(*) as total_usuarios "
+	                 + "FROM usuario "
+	                 + "WHERE activo = 0;";
+		   return conexion.queryForObject(sql, Integer.class);
+	}
 				
-				// retorna el nombre del ultimo cliente que se registro
-				public String nombreUsuarioReciente() {
-				    String sql = "SELECT u.UserName "
-				                 + "FROM usuario u "
-				                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM usuario);";
-				    return conexion.queryForObject(sql, String.class);
-				}
+	// retorna el nombre del ultimo cliente que se registro
+	public String nombreUsuarioReciente() {
+	    String sql = "SELECT u.UserName "
+	                 + "FROM usuario u "
+	                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM usuario);";
+	    return conexion.queryForObject(sql, String.class);
+	}
+	
+	public List<NombreIdUsuarioDTO> consultarNombreIdUsuario() {
+	    String sql = "select IdUsuario, UserName from usuario;";
+	    return conexion.query(sql, new NombreIdUsuarioDTORM());
+	}
 
 }

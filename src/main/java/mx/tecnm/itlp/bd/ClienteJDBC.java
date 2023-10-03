@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.tecnm.itlp.models.Cliente;
 import mx.tecnm.itlp.models.ClienteDTO;
+import mx.tecnm.itlp.models.NombreIdClienteDTO;
 
 @Repository
 public class ClienteJDBC {
@@ -68,6 +69,11 @@ public class ClienteJDBC {
 	                 + "FROM cliente c "
 	                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM cliente);";
 	    return conexion.queryForObject(sql, String.class);
+	}
+	
+	public List<NombreIdClienteDTO> recuperarNombreIdClientes(){
+		String sql = "select IdCliente, RazonSocial from cliente;";
+		return conexion.query(sql, new NombreIdClienteDTORM());
 	}
 			
 }

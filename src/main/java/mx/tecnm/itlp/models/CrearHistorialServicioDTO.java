@@ -1,9 +1,9 @@
 package mx.tecnm.itlp.models;
 
-public class CrearHistorialServicio {
-	int IdServicio; 
-	int IdUsuario;
-	int IdEstadoServicio;
+public class CrearHistorialServicioDTO {
+	int IdServicio;
+	int IdUsuario; 
+	int IdEstadoServicio; 
 	String DescripcionCambio;
 	
 	public int getIdServicio() {

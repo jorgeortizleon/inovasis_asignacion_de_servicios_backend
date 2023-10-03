@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.ServicioJDBC;
@@ -32,10 +33,22 @@ public class ServicioREST {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> crearCliente(@RequestBody CrearServicioDTO crearserviciodto) {
+	public ResponseEntity<?> crearServicio(@RequestBody CrearServicioDTO crearserviciodto) {
 		try {
+			System.out.println(crearserviciodto.getIdUsuario());
 		repo.crearServicio(crearserviciodto);
 		return new ResponseEntity<CrearServicioDTO>(HttpStatus.CREATED);
+		} catch (Exception e) {
+	     e.printStackTrace();
+	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	    }
+	 }
+	
+	@PostMapping("/crear")
+	public ResponseEntity<?> crearServicio2(@RequestParam int IdUsuario, @RequestParam int IdUAsignado,@RequestParam int IdCliente, @RequestParam int Factura, @RequestParam int HojaServicio, @RequestParam String Descripcion, @RequestParam int HojaRemision, @RequestParam int EmpresaPoliza, @RequestParam String TituloServicio) {
+		try {
+		repo.crearServicio2(IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 	     e.printStackTrace();
 	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);

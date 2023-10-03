@@ -41,5 +41,10 @@ public class ServicioJDBC {
 		String sql = "INSERT INTO servicio(IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		conexion.update(sql, crearserviciodto.getIdUsuario(), crearserviciodto.getIdUAsignado(), crearserviciodto.getIdCliente(), crearserviciodto.getFactura(), crearserviciodto.getHojaServicio(), crearserviciodto.getDescripcion(), crearserviciodto.getHojaRemision(), crearserviciodto.getEmpresaPoliza(), crearserviciodto.getTituloServicio() );
 	}
+	
+	public void crearServicio2(int IdUsuario, int IdUAsignado,int IdCliente, int Factura, int HojaServicio, String Descripcion, int HojaRemision, int EmpresaPoliza, String TituloServicio) {
+		String sql = "INSERT INTO servicio(IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		conexion.update(sql, IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio );
+	}
 			
 }

@@ -16,7 +16,7 @@ public class ServicioJDBC {
 	
 	//read
 	public List<ServicioDTO> recuperarServiciosTabla(){
-		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, es.descripcion AS Estado \r\n" + 
+		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado \r\n" + 
 				"FROM servicio s \r\n" + 
 				"LEFT JOIN cliente c ON s.IdCliente = c.IdCliente \r\n" +
 				"LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario \r\n" +

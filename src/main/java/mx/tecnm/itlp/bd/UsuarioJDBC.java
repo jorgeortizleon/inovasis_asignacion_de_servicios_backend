@@ -113,20 +113,27 @@ public class UsuarioJDBC {
 	    String sql = "SELECT COUNT(*) as total_usuarios "
 	                 + "FROM usuario "
 	                 + "WHERE activo = 0;";
-		   return conexion.queryForObject(sql, Integer.class);
+		return conexion.queryForObject(sql, Integer.class);
 	}
 				
 	// retorna el nombre del ultimo cliente que se registro
 	public String nombreUsuarioReciente() {
-	    String sql = "SELECT u.UserName "
+		String sql = "SELECT u.UserName "
 	                 + "FROM usuario u "
 	                 + "WHERE FechaRegistro = (SELECT MAX(FechaRegistro) FROM usuario);";
-	    return conexion.queryForObject(sql, String.class);
+	 	return conexion.queryForObject(sql, String.class);
 	}
 	
+	//retorna id y nombre del usuario
 	public List<NombreIdUsuarioDTO> consultarNombreIdUsuario() {
 	    String sql = "select IdUsuario, UserName from usuario;";
 	    return conexion.query(sql, new NombreIdUsuarioDTORM());
+	}
+	
+	//verifica si el correo existe 1 o 0, esto se usara para no crear usuarios con correos repetidos  
+	public boolean verificarCorreo(String correo) {
+		String sql = "select COUNT(*) from usuario where correo=?";
+		return conexion.queryForObject(sql, Integer.class, correo) != 0;
 	}
 
 }

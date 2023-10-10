@@ -62,12 +62,23 @@ public class PermisoJDBC {
 	}
 	
 	// obtener permiso a menu acerca de
-		public int permisoMenuAcercade(int id) {
-			   String sql = "select Estado "
-			                + "from permiso  "
-			                + "where NombreMenu = \"menuAcercade\" and IdRol = ?";
-				  return conexion.queryForObject(sql, Integer.class, id);
-		}
-		
+	public int permisoMenuAcercade(int id) {
+			  String sql = "select Estado "
+			               + "from permiso  "
+			               + "where NombreMenu = \"menuAcercade\" and IdRol = ?";
+			  return conexion.queryForObject(sql, Integer.class, id);
+	}
+	
+	//update permisos
+	public void modificarpermisos(int estado, String permiso, int idrol) {
+		String sql = "UPDATE permiso SET estado=? WHERE NombreMenu = ? and idrol=?;";
+		conexion.update(sql, estado, permiso, idrol );
+	}
+	
+	//crear permisos, para cuando se crea un rol, tambien se crean sus permisos
+	public void crearPermiso(int IdRol, String NombreMenu, int Estado) {
+		String sql = "INSERT INTO permiso(IdRol, NombreMenu, Estado) VALUES(?, ?, ?);";
+		conexion.update(sql, IdRol, NombreMenu, Estado);
+	}
 
 }

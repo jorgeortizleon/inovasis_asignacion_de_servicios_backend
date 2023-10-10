@@ -7,8 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.PermisoJDBC;
@@ -23,7 +27,7 @@ public class PermisoREST {
 	PermisoJDBC repo;
 	
 	@GetMapping("/rol/{id}")
-	public ResponseEntity<?> recuperarClientes(@PathVariable int id){
+	public ResponseEntity<?> recuperarPermisos(@PathVariable int id){
 		List<Permiso> resultado = null;
 		resultado = repo.recuperarPermisos(id);
 		return new ResponseEntity<List<Permiso>>(resultado, HttpStatus.OK);
@@ -64,6 +68,28 @@ public class PermisoREST {
 	    int permisoMenu = repo.permisoMenuAcercade(id);
 	    return new ResponseEntity<>(permisoMenu, HttpStatus.OK);
 	}
+	
+	@PutMapping("/modificarpermisoMenuUsuarios")
+	public ResponseEntity<?> modificarpermisos(@RequestParam int estado,@RequestParam String permiso, @RequestParam int idrol) {
+		try {
+		repo.modificarpermisos(estado, permiso, idrol);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+	     e.printStackTrace();
+	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	    }
+	 }
+	
+	@PostMapping("/crear")
+	public ResponseEntity<?> crearPermiso(@RequestParam int IdRol, @RequestParam String NombreMenu, @RequestParam int Estado) {
+		try {
+		repo.crearPermiso(IdRol, NombreMenu, Estado);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+	     e.printStackTrace();
+	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	    }
+	 }
 
 }
  

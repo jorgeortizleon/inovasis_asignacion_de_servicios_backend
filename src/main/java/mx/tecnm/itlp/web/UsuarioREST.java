@@ -126,8 +126,7 @@ public class UsuarioREST {
 	     }
 	 }
 	 
-	 //delate
-	 
+	 //delete
 	 @PutMapping("/borrar/{id}")
 	 public ResponseEntity<Void> borrarUsuario(@PathVariable int id) {
 	     try {
@@ -142,32 +141,41 @@ public class UsuarioREST {
 	 }
 	 
 	 @GetMapping("/numTotalUsuarios")
-	    public ResponseEntity<?> numTotalUsuarios() {
-	        int totalUsuarios = repo.numTotalUsuarios();
-	        return new ResponseEntity<>(totalUsuarios, HttpStatus.OK);
-	    }
+	 public ResponseEntity<?> numTotalUsuarios() {
+	     int totalUsuarios = repo.numTotalUsuarios();
+	     return new ResponseEntity<>(totalUsuarios, HttpStatus.OK);
+	 }
 		
-		@GetMapping("/usuariosActivos")
-		public ResponseEntity<?> usuariosActivos() {
-		    int totalUsuariosActivos = repo.numTotalUsuarios();
-		    return new ResponseEntity<>(totalUsuariosActivos, HttpStatus.OK);
-		}
+	@GetMapping("/usuariosActivos")
+	public ResponseEntity<?> usuariosActivos() {
+	int totalUsuariosActivos = repo.numTotalUsuarios();
+	return new ResponseEntity<>(totalUsuariosActivos, HttpStatus.OK);
+	}
 		
-		@GetMapping("/usuariosBorrados")
-		public ResponseEntity<?> usuariosInactivos() {
-		    int totalUsuariosInactivos = repo.numUsuariosBorrados();
-		    return new ResponseEntity<>(totalUsuariosInactivos, HttpStatus.OK);
-		}
+	@GetMapping("/usuariosBorrados")
+	public ResponseEntity<?> usuariosInactivos() {
+		   int totalUsuariosInactivos = repo.numUsuariosBorrados();
+		   return new ResponseEntity<>(totalUsuariosInactivos, HttpStatus.OK);
+	}
 		
-		@GetMapping("/nombreUsuarioReciente")
-		public ResponseEntity<?> nombreUsuarioReciente() {
-		    String nombreUsuario = repo.nombreUsuarioReciente();
-		    return new ResponseEntity<>(nombreUsuario, HttpStatus.OK);
-		}
+	@GetMapping("/nombreUsuarioReciente")
+	public ResponseEntity<?> nombreUsuarioReciente() {
+	    String nombreUsuario = repo.nombreUsuarioReciente();
+	    return new ResponseEntity<>(nombreUsuario, HttpStatus.OK);
+	}
 		
-		@GetMapping("/nombreId")
-		public ResponseEntity<?> consultarNombreIdUsuario(){
-		    List<NombreIdUsuarioDTO> resultado = repo.consultarNombreIdUsuario();
-		    return new ResponseEntity<List<NombreIdUsuarioDTO>>(resultado, HttpStatus.OK);
-		}
+	@GetMapping("/nombreId")
+	public ResponseEntity<?> consultarNombreIdUsuario(){
+	    List<NombreIdUsuarioDTO> resultado = repo.consultarNombreIdUsuario();
+	    return new ResponseEntity<List<NombreIdUsuarioDTO>>(resultado, HttpStatus.OK);
+	}
+	
+	@PostMapping("/verificarCorreo/{correo}")
+	public ResponseEntity<?> verificarCorreo(@PathVariable String correo){	
+		if (repo.verificarCorreo(correo)) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}	
+	}
 }

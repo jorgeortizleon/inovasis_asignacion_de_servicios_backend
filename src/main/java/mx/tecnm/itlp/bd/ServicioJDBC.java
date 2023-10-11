@@ -2,11 +2,13 @@ package mx.tecnm.itlp.bd;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import mx.tecnm.itlp.models.CrearServicioDTO;
 import mx.tecnm.itlp.models.ServicioDTO;
+import mx.tecnm.itlp.models.UsuarioTable;
 
 @Repository
 public class ServicioJDBC {
@@ -16,7 +18,8 @@ public class ServicioJDBC {
 	
 	//read
 	public List<ServicioDTO> recuperarServiciosTabla(){
-		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado \r\n" + 
+
+		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza \r\n" + 
 				"FROM servicio s \r\n" + 
 				"LEFT JOIN cliente c ON s.IdCliente = c.IdCliente \r\n" +
 				"LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario \r\n" +
@@ -46,5 +49,43 @@ public class ServicioJDBC {
 		String sql = "INSERT INTO servicio(IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		conexion.update(sql, IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio );
 	}
+	
+	public ServicioDTO obtenerServicioPorId(int id) {
+	    String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
+	                 "FROM servicio s " +
+	                 "LEFT JOIN cliente c ON s.IdCliente = c.IdCliente " +
+	                 "LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario " +
+	                 "LEFT JOIN usuario us ON s.IdUAsignado = us.IdUsuario " +
+	                 "LEFT JOIN estadoservicio e ON s.IdEstadoServicio = e.IdEstadoServicio " +
+	                 "LEFT JOIN ( " +
+	                 "    SELECT hs.IdServicio, MAX(hs.fechacambio) AS UltimaFechaCambio " +
+	                 "    FROM historialservicio hs " +
+	                 "    GROUP BY hs.IdServicio " +
+	                 ") AS ultima_fecha " +
+	                 "ON s.IdServicio = ultima_fecha.IdServicio " +
+	                 "LEFT JOIN historialservicio hs " +
+	                 "ON s.IdServicio = hs.IdServicio AND ultima_fecha.UltimaFechaCambio = hs.fechacambio " +
+	                 "LEFT JOIN estadoservicio es " +
+	                 "ON hs.IdEstadoServicio = es.IdEstadoServicio " +
+	                 "WHERE s.IdServicio = ?"; // Agrega la cláusula WHERE para filtrar por ID
+	                 
+	    return conexion.queryForObject(sql, new Object[]{id}, new ServicioDTORM());
+	}
+	// Método para insertar observaciones en un servicio por su ID
+	public void insertarObservacion(int idServicio, String observaciones) {
+	    String sql = "UPDATE servicio SET Observaciones = ? WHERE IdServicio = ?";
+	    conexion.update(sql, observaciones, idServicio);
+	}
+
+	public String obtenerObservacionesPorIdServicio(int idServicio) {
+	    String sql = "SELECT Observaciones FROM servicio WHERE IdServicio = ?";
+	    try {
+	        return conexion.queryForObject(sql, new Object[]{idServicio}, String.class);
+	    } catch (EmptyResultDataAccessException e) {
+	        // En caso de que el servicio no tenga observaciones o no exista
+	        return "";
+	    }
+	}
+
 			
 }

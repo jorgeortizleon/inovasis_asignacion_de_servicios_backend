@@ -18,6 +18,11 @@ public class ServicioDTORM implements RowMapper<ServicioDTO>{
 		serviciodto.setFecha(rs.getString("Fecha"));
 		serviciodto.setTituloservicio(rs.getString("tituloservicio"));
 		serviciodto.setEstado(rs.getString("Estado"));
+		serviciodto.setDescripcion(rs.getString("Descripcion"));
+		serviciodto.setHojaServicio(rs.getInt("HojaServicio"));
+		serviciodto.setHojaRemision(rs.getInt("HojaRemision"));
+		serviciodto.setFactura(rs.getInt("Factura"));
+		serviciodto.setEmpresaPoliza(rs.getInt("EmpresaPoliza"));
 		return serviciodto;
 	}
 	

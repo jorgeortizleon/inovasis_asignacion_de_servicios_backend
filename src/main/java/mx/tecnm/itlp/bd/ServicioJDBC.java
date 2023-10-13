@@ -86,6 +86,12 @@ public class ServicioJDBC {
 	        return "";
 	    }
 	}
+	
+	// retorna el id del ultimo servicio creado
+	public int ultimoServicioAgregadoId() {
+		String sql = "select MAX(IdServicio) from servicio;";
+		return conexion.queryForObject(sql, Integer.class);
+	}
 
 			
 }

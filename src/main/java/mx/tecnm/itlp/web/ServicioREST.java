@@ -96,7 +96,12 @@ public class ServicioREST {
 	        return new ResponseEntity<>("Observaciones no encontradas", HttpStatus.NOT_FOUND);
 	    }
 	}
-
+	
+	@GetMapping("/idUltimoServicio")
+	public ResponseEntity<?> ultimoServicioAgregadoId() {
+	    int idServicio = repo.ultimoServicioAgregadoId();
+	    return new ResponseEntity<>(idServicio, HttpStatus.OK);
+	}
 	 
 }
  

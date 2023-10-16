@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.ServicioJDBC;
+import mx.tecnm.itlp.models.CheckboxServicio;
 import mx.tecnm.itlp.models.CrearServicioDTO;
 import mx.tecnm.itlp.models.ServicioDTO;
 
@@ -101,6 +102,22 @@ public class ServicioREST {
 	public ResponseEntity<?> ultimoServicioAgregadoId() {
 	    int idServicio = repo.ultimoServicioAgregadoId();
 	    return new ResponseEntity<>(idServicio, HttpStatus.OK);
+	}
+	
+	@GetMapping("obtenerCheckboxServicio/{id}")
+	public ResponseEntity<?> obtenerCheckboxServicio(@PathVariable int id) {
+	    CheckboxServicio checkboxservicio = repo.obtenerCheckboxServicio(id);
+	    if (checkboxservicio != null) {
+	        return new ResponseEntity<>(checkboxservicio, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>("No encontrado", HttpStatus.NOT_FOUND);
+	    }
+	}
+	
+	@GetMapping("descripcionServicio/{id}")
+	public ResponseEntity<?> descripcionServicio(@PathVariable int id) {
+	    String descripcion = repo.descripcionServicio(id);
+	    return new ResponseEntity<>(descripcion, HttpStatus.OK);
 	}
 	 
 }

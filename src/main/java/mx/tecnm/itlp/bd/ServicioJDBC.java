@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import mx.tecnm.itlp.models.CheckboxServicio;
 import mx.tecnm.itlp.models.CrearServicioDTO;
 import mx.tecnm.itlp.models.ServicioDTO;
 import mx.tecnm.itlp.models.UsuarioTable;
@@ -91,6 +92,18 @@ public class ServicioJDBC {
 	public int ultimoServicioAgregadoId() {
 		String sql = "select MAX(IdServicio) from servicio;";
 		return conexion.queryForObject(sql, Integer.class);
+	}
+	
+	//regresar facturacion, las hojas y remision
+	public CheckboxServicio obtenerCheckboxServicio(int id) {
+	    String sql = "select Factura, HojaServicio, HojaRemision, EmpresaPoliza from servicio where IdServicio = ?;";  
+	    return conexion.queryForObject(sql, new CheckboxServicioRM(), id);
+	}
+	
+	// retorna la descripcion de un servicio
+	public String descripcionServicio(int id) {
+		String sql = "select Descripcion from servicio where IdServicio=?;";
+		return conexion.queryForObject(sql, String.class, id);
 	}
 
 			

@@ -81,4 +81,5 @@ public class PermisoJDBC {
 		conexion.update(sql, IdRol, NombreMenu, Estado);
 	}
 
+	
 }

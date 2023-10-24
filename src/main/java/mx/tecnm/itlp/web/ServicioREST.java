@@ -71,6 +71,7 @@ public class ServicioREST {
 	        return new ResponseEntity<>("Servicio no encontrado", HttpStatus.NOT_FOUND);
 	    }
 	}
+	
 	@PutMapping("/editar/{id}")
 	public ResponseEntity<?> editarObservacion(@PathVariable int id, @RequestBody ServicioDTO serviciodto) {
 	    try {
@@ -118,6 +119,17 @@ public class ServicioREST {
 	public ResponseEntity<?> descripcionServicio(@PathVariable int id) {
 	    String descripcion = repo.descripcionServicio(id);
 	    return new ResponseEntity<>(descripcion, HttpStatus.OK);
+	}
+	
+	@PutMapping("/editarRequisitos")
+	public ResponseEntity<?> editarRequsitos(@RequestParam int Factura, @RequestParam int HojaServicio, @RequestParam int HojaRemision, @RequestParam int EmpresaPoliza, @RequestParam int idServicio) {
+	    try {
+	        repo.editarRequsitos(Factura, HojaServicio, HojaRemision, EmpresaPoliza, idServicio);
+	        return new ResponseEntity<>(HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
 	}
 	 
 }

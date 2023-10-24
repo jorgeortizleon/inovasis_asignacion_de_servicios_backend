@@ -12,6 +12,7 @@ public class ServicioDTORM implements RowMapper<ServicioDTO>{
 		ServicioDTO serviciodto = new ServicioDTO();
 		serviciodto.setIdServicio(rs.getInt("IdServicio"));
 		serviciodto.setCodigoServicio(rs.getString("CodigoServicio"));
+		serviciodto.setCodigoCliente(rs.getString("Codigo"));
 		serviciodto.setRazonSocial(rs.getString("RazonSocial"));
 		serviciodto.setUsuarioCreado(rs.getString("UsuarioCreado"));
 		serviciodto.setUsuarioAsignado(rs.getString("UsuarioAsignado"));

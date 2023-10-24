@@ -72,7 +72,7 @@ public class ClienteJDBC {
 	}
 	
 	public List<NombreIdClienteDTO> recuperarNombreIdClientes(){
-		String sql = "select IdCliente, RazonSocial from cliente;";
+		String sql = "select IdCliente, RazonSocial from cliente where activo = 1 and Estado = 1;";
 		return conexion.query(sql, new NombreIdClienteDTORM());
 	}
 			

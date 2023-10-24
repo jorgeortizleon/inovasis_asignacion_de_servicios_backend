@@ -20,7 +20,7 @@ public class ServicioJDBC {
 	//read
 	public List<ServicioDTO> recuperarServiciosTabla(){
 
-		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza \r\n" + 
+		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza \r\n" + 
 				"FROM servicio s \r\n" + 
 				"LEFT JOIN cliente c ON s.IdCliente = c.IdCliente \r\n" +
 				"LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario \r\n" +
@@ -52,7 +52,7 @@ public class ServicioJDBC {
 	}
 	
 	public ServicioDTO obtenerServicioPorId(int id) {
-	    String sql = "SELECT s.IdServicio, s.CodigoServicio, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
+	    String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
 	                 "FROM servicio s " +
 	                 "LEFT JOIN cliente c ON s.IdCliente = c.IdCliente " +
 	                 "LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario " +
@@ -106,5 +106,10 @@ public class ServicioJDBC {
 		return conexion.queryForObject(sql, String.class, id);
 	}
 
+	// agregar o editar los requisitos
+		public void editarRequsitos(int Factura, int HojaServicio, int HojaRemision, int EmpresaPoliza, int idServicio ) {
+		    String sql = "UPDATE servicio SET Factura = ?, HojaServicio = ?, hojaRemision = ?, EmpresaPoliza = ? WHERE IdServicio = ?;";
+		    conexion.update(sql, Factura, HojaServicio, HojaRemision, EmpresaPoliza, idServicio);
+		}
 			
 }

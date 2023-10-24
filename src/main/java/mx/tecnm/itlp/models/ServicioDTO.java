@@ -3,6 +3,7 @@ package mx.tecnm.itlp.models;
 public class ServicioDTO {
 	int IdServicio;
 	String CodigoServicio;
+	String CodigoCliente;
 	String RazonSocial;
 	String UsuarioCreado;
 	String UsuarioAsignado;
@@ -14,6 +15,13 @@ public class ServicioDTO {
 	int Factura;
 	int HojaServicio;
 	int HojaRemision;
+	
+	public String getCodigoCliente() {
+		return CodigoCliente;
+	}
+	public void setCodigoCliente(String codigoCliente) {
+		CodigoCliente = codigoCliente;
+	}
 	public String getObservaciones() {
 		return Observaciones;
 	}

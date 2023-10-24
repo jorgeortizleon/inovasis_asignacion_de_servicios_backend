@@ -126,7 +126,7 @@ public class UsuarioJDBC {
 	
 	//retorna id y nombre del usuario
 	public List<NombreIdUsuarioDTO> consultarNombreIdUsuario() {
-	    String sql = "select IdUsuario, UserName from usuario;";
+	    String sql = "select IdUsuario, UserName from usuario where activo = 1 and Estado = 1;";
 	    return conexion.query(sql, new NombreIdUsuarioDTORM());
 	}
 	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.ObservacionJDBC;
+import mx.tecnm.itlp.models.ClienteDTO;
 import mx.tecnm.itlp.models.Observacion;
 
 @RestController
@@ -38,6 +39,23 @@ public class ObservacionREST {
 		try {
 		repo.crearObservacion(IdUsuario, IdServicio, Observacion);
 		return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+	     e.printStackTrace();
+	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	    }
+	 }
+	
+	@GetMapping("/numeroObservacionesNoVisto")
+    public ResponseEntity<?> numeroObservacionesNoVisto(@RequestParam int IdServicio) {
+        int resultado = repo.numeroObservacionesNoVisto(IdServicio);
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    }
+	
+	@PutMapping("/observacionVisto")
+	public ResponseEntity<?> observacionVisto(@RequestParam int IdServicio) {
+		try {
+		repo.observacionVisto(IdServicio);
+		return new ResponseEntity<ClienteDTO>(HttpStatus.CREATED);
 		} catch (Exception e) {
 	     e.printStackTrace();
 	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);

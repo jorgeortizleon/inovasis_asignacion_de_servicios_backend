@@ -29,6 +29,18 @@ public class ObservacionJDBC {
 		conexion.update(sql, IdUsuario, IdServicio, Observacion );
 	}
 	
+	// regresa la cantidad de observaciones aun no vistas
+	public int numeroObservacionesNoVisto(int IdServicio) {
+	    String sql = "select COUNT(*) from observacion where IdServicio = ? and visto = 0;";
+	    return conexion.queryForObject(sql, Integer.class, IdServicio);
+	}
+	
+	//poner en visto las observaciones
+		public void observacionVisto(int IdServicio) {
+			String sql = "UPDATE observacion SET visto=1 WHERE IdServicio=?;";
+			conexion.update(sql, IdServicio );
+		}
+	
 //	//delete
 //	public void desactivarCliente(int id) {
 //		String sql = "update cliente set activo = 0 WHERE IdCliente = ?";

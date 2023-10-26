@@ -19,7 +19,7 @@ public class UsuarioRM implements RowMapper<Usuario>{
         user.setEstado(rs.getInt("Estado"));
         user.setFechaRegistro(rs.getString("FechaRegistro"));
         user.setContrasena(rs.getString("Contrasena"));
-        /*user.setNombreRol(rs.getString("nombreRol")); // Asigna la columna "nombreRol" a la propiedad
-        */return user;
+        user.setNombreRol(rs.getString("Descripcion")); 
+        return user;
     }
 }

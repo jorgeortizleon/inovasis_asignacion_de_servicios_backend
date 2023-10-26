@@ -9,16 +9,16 @@ public class Usuario {
 	int IdRol;
 	int Estado;
 	int Activo;
+	String FechaRegistro;
+	String Contrasena;
+	private String nombreRol;
+	
 	public int getActivo() {
 		return Activo;
 	}
 	public void setActivo(int activo) {
 		Activo = activo;
 	}
-	String FechaRegistro;
-	String Contrasena;
-	private String nombreRol;
-	
 	public int getIdUsuario() {
 		return IdUsuario;
 	}

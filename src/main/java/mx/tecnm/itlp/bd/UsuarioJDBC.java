@@ -83,7 +83,7 @@ public class UsuarioJDBC {
 	}*/
 		
 	public Usuario autenticar2(String username, String password) {
-		String sql = "SELECT * FROM usuario WHERE UserName=? AND Contrasena=?";
+		String sql = "SELECT u.activo, u.Clave, u.Contrasena, u.Correo, u.estado, u.FechaRegistro, u.IdRol, u.IdUsuario, u.NombreCompleto, r.Descripcion, u.UserName FROM usuario u LEFT JOIN rol r ON u.IdRol = r.IdRol WHERE u.UserName=? AND u.Contrasena=? ;";
 		return conexion.queryForObject(sql,new UsuarioRM(), username, password);
 	}
 	

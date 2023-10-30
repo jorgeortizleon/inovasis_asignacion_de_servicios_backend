@@ -3,11 +3,13 @@ package mx.tecnm.itlp.bd;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import mx.tecnm.itlp.models.CheckboxServicio;
 import mx.tecnm.itlp.models.CrearServicioDTO;
+import mx.tecnm.itlp.models.Notificacion;
 import mx.tecnm.itlp.models.ServicioDTO;
 import mx.tecnm.itlp.models.UsuarioTable;
 
@@ -16,6 +18,11 @@ public class ServicioJDBC {
 	
 	@Autowired
 	JdbcTemplate conexion;
+    private final JdbcTemplate jdbcTemplate;
+    @Autowired
+    public ServicioJDBC(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 	
 	//read
 	public List<ServicioDTO> recuperarServiciosTabla(){
@@ -104,6 +111,31 @@ public class ServicioJDBC {
 	public String descripcionServicio(int id) {
 		String sql = "select Descripcion from servicio where IdServicio=?;";
 		return conexion.queryForObject(sql, String.class, id);
+	}
+	
+	// Método para crear una notificación
+	public void crearNotificacion(int usuarioId, String contenido, int servicioId) {
+	    String sql = "INSERT INTO notificaciones(usuario_id, contenido, servicio_id) VALUES(?, ?, ?);";
+	    conexion.update(sql, usuarioId, contenido, servicioId);
+	}
+	
+	public void marcarNotificacionComoLeida(int idNotificacion) {
+	    String sql = "UPDATE notificaciones SET leida = 1 WHERE idnotificaciones = ?;";
+	    conexion.update(sql, idNotificacion);
+	}
+	public List<Notificacion> getNotificacionesNoLeidasPorUsuario(int IdUAsignado) {
+	    String sql = "SELECT * FROM notificaciones WHERE usuario_id = ? AND leida = 0";
+	    List<Notificacion> notificaciones = conexion.query(sql, new BeanPropertyRowMapper<>(Notificacion.class), IdUAsignado);
+	    return notificaciones;
+	}
+	
+	public String getTituloServicio(int servicioId) {
+	    String sql = "SELECT TituloServicio FROM servicio WHERE IdServicio = ?";
+	    try {
+	        return jdbcTemplate.queryForObject(sql, String.class, servicioId);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error al obtener el título del servicio", e);
+	    }
 	}
 
 	// agregar o editar los requisitos

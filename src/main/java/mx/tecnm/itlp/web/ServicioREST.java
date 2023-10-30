@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import mx.tecnm.itlp.bd.ServicioJDBC;
 import mx.tecnm.itlp.models.CheckboxServicio;
 import mx.tecnm.itlp.models.CrearServicioDTO;
+import mx.tecnm.itlp.models.Notificacion;
 import mx.tecnm.itlp.models.ServicioDTO;
 
 @RestController
@@ -30,6 +31,10 @@ public class ServicioREST {
 	
 	@Autowired
 	ServicioJDBC repo;
+	
+	 @Autowired
+	    private ServicioJDBC servicioJDBC;
+
 	
 	@GetMapping
 	public ResponseEntity<?> recuperarServiciosTabla(){
@@ -54,6 +59,13 @@ public class ServicioREST {
 	public ResponseEntity<?> crearServicio2(@RequestParam int IdUsuario, @RequestParam int IdUAsignado,@RequestParam int IdCliente, @RequestParam int Factura, @RequestParam int HojaServicio, @RequestParam String Descripcion, @RequestParam int HojaRemision, @RequestParam int EmpresaPoliza, @RequestParam String TituloServicio) {
 		try {
 		repo.crearServicio2(IdUsuario, IdUAsignado,IdCliente, Factura, HojaServicio, Descripcion, HojaRemision, EmpresaPoliza, TituloServicio);
+		
+		 // Crear una notificación
+        String contenidoNotificacion = "Se ha creado un nuevo servicio con ID: " + repo.ultimoServicioAgregadoId();
+        int usuarioIdAsignado = IdUAsignado; // Accedes al valor del parámetro IdUAsignado
+        int servicioId = repo.ultimoServicioAgregadoId();
+        repo.crearNotificacion(usuarioIdAsignado, contenidoNotificacion, servicioId);
+       
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 	     e.printStackTrace();
@@ -131,6 +143,28 @@ public class ServicioREST {
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
 	}
+	@PostMapping("/marcarComoLeida/{idNotificacion}")
+    public ResponseEntity<String> marcarNotificacionComoLeida(@PathVariable int idNotificacion) {
+        servicioJDBC.marcarNotificacionComoLeida(idNotificacion);
+        return new ResponseEntity<>("Notificación marcada como leída.", HttpStatus.OK);
+    }
 	 
+	@GetMapping("/notificaciones/{IdUAsignado}")
+	public ResponseEntity<List<Notificacion>> getNotificacionesNoLeidasUsuario(@PathVariable int IdUAsignado) {
+	    List<Notificacion> notificaciones = repo.getNotificacionesNoLeidasPorUsuario(IdUAsignado);
+	    return new ResponseEntity<>(notificaciones, HttpStatus.OK);
+	}
+	@GetMapping("/servicio/{servicioId}")
+	public ResponseEntity<String> getTituloServicio(@PathVariable int servicioId) {
+	    try {
+	        String tituloServicio = servicioJDBC.getTituloServicio(servicioId);
+	        return new ResponseEntity<>(tituloServicio, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>("Error al obtener el título del servicio", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
+
+
 }
  

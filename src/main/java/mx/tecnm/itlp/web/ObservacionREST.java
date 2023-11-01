@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.tecnm.itlp.bd.ObservacionJDBC;
+import mx.tecnm.itlp.bd.ObservacionNotifiRM;
 import mx.tecnm.itlp.models.ClienteDTO;
 import mx.tecnm.itlp.models.Observacion;
+import mx.tecnm.itlp.models.ObservacionNotifi;
 
 @RestController
 @RequestMapping("/observaciones")
@@ -61,7 +63,14 @@ public class ObservacionREST {
 	    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 	    }
 	 }
-//	
+	
+	@GetMapping("/noVistoNotifi")
+	public ResponseEntity<?> ObservacionesNoVistoNotifi(@RequestParam int IdUsuario){
+		List<ObservacionNotifi> resultado = null;
+		resultado = repo.ObservacionesNoVistoNotifi(IdUsuario);
+		return new ResponseEntity<List<ObservacionNotifi>>(resultado, HttpStatus.OK);
+	}
+	
 //	@GetMapping("borrar/{id}")
 //	public ResponseEntity<?> desactivarUsuario(@PathVariable int id) {
 //		try {

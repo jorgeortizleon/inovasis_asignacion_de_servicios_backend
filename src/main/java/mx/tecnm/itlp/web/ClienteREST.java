@@ -97,5 +97,10 @@ public class ClienteREST {
 		resultado = repo.recuperarNombreIdClientes();
 		return new ResponseEntity<List<NombreIdClienteDTO>>(resultado, HttpStatus.OK);
 	}
+	
+	@GetMapping("/holaServer")
+	public String hola() {
+		return "Hola mundo desde el Backend de Inovasis";
+	}
 }
  

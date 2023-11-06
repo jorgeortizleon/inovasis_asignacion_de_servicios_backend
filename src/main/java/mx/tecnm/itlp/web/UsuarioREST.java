@@ -24,7 +24,7 @@ import mx.tecnm.itlp.models.UsuarioTable;
 @RestController
 @RequestMapping("/usuarios")
 
-@CrossOrigin(origins = "http://localhost:8080", methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH})
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH})
 public class UsuarioREST {
     private final UsuarioJDBC usuarioJDBC; // Agrega esta línea
 

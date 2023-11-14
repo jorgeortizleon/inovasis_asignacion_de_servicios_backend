@@ -43,7 +43,7 @@ public class ServicioJDBC {
 				"LEFT JOIN historialservicio hs \r\n" +
 				"ON s.IdServicio = hs.IdServicio AND ultima_fecha.UltimaFechaCambio = hs.fechacambio \r\n" +
 				"LEFT JOIN estadoservicio es \r\n" +
-				"ON hs.IdEstadoServicio = es.IdEstadoServicio;";
+				"ON hs.IdEstadoServicio = es.IdEstadoServicio ORDER BY s.IdServicio DESC;";
 		return conexion.query(sql, new ServicioDTORM());
 	}
 	

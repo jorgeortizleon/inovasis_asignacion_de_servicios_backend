@@ -12,6 +12,7 @@ public class NombreIdUsuarioDTORM implements RowMapper<NombreIdUsuarioDTO>{
 		NombreIdUsuarioDTO usuariodto = new NombreIdUsuarioDTO();
 		usuariodto.setIdUsuario(rs.getInt("IdUsuario"));
 		usuariodto.setUserName(rs.getString("UserName"));
+		usuariodto.setNombreCompleto(rs.getString("NombreCompleto"));
 		return usuariodto;
 	}
 }

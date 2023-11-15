@@ -27,11 +27,11 @@ public class ServicioJDBC {
 	//read
 	public List<ServicioDTO> recuperarServiciosTabla(){
 
-		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza \r\n" + 
+		String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.NombreCompleto AS UsuarioCreado, nc.NombreCompleto AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza \r\n" + 
 				"FROM servicio s \r\n" + 
 				"LEFT JOIN cliente c ON s.IdCliente = c.IdCliente \r\n" +
 				"LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario \r\n" +
-				"LEFT JOIN usuario us ON s.IdUAsignado = us.IdUsuario \r\n" +
+				"LEFT JOIN usuario nc ON s.IdUAsignado = nc.IdUsuario \r\n" +
 				"LEFT JOIN estadoservicio e ON s.IdEstadoServicio = e.IdEstadoServicio \r\n" +
 				"LEFT JOIN \r\n" +
 				"( \r\n" +
@@ -59,11 +59,11 @@ public class ServicioJDBC {
 	}
 	
 	public ServicioDTO obtenerServicioPorId(int id) {
-	    String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.UserName AS UsuarioCreado, us.UserName AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
+	    String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.NombreCompleto AS UsuarioCreado, nc.NombreCompleto AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
 	                 "FROM servicio s " +
 	                 "LEFT JOIN cliente c ON s.IdCliente = c.IdCliente " +
 	                 "LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario " +
-	                 "LEFT JOIN usuario us ON s.IdUAsignado = us.IdUsuario " +
+	                 "LEFT JOIN usuario nc ON s.IdUAsignado = nc.IdUsuario " +
 	                 "LEFT JOIN estadoservicio e ON s.IdEstadoServicio = e.IdEstadoServicio " +
 	                 "LEFT JOIN ( " +
 	                 "    SELECT hs.IdServicio, MAX(hs.fechacambio) AS UltimaFechaCambio " +

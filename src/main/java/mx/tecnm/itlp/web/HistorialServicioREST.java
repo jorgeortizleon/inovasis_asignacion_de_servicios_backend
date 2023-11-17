@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import mx.tecnm.itlp.bd.HistorialServicioJDBC;
 import mx.tecnm.itlp.models.CrearHistorialServicioDTO;
 import mx.tecnm.itlp.models.HistorialServicio;
+import mx.tecnm.itlp.models.TiempoServicio;
 
 
 @RestController
@@ -57,6 +58,16 @@ public class HistorialServicioREST {
 		resultado = repo.recuperarHistorialServicio(idServicio);
 		return new ResponseEntity<List<HistorialServicio>>(resultado, HttpStatus.OK);
 	}
+	 @GetMapping("/calcularTiempo/{idServicio}")
+	    public ResponseEntity<?> calcularTiempoServicio(@PathVariable int idServicio) {
+	        try {
+	            TiempoServicio resultado = repo.calcularTiempoServicio(idServicio);
+	            return new ResponseEntity<>(resultado, HttpStatus.OK);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	    }
 	
 }
  

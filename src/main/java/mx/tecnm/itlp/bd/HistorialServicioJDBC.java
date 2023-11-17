@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.tecnm.itlp.models.CrearHistorialServicioDTO;
 import mx.tecnm.itlp.models.HistorialServicio;
+import mx.tecnm.itlp.models.TiempoServicio;
 
 @Repository
 public class HistorialServicioJDBC {
@@ -34,4 +35,21 @@ public class HistorialServicioJDBC {
                 + "LEFT JOIN estadoservicio e ON h.IdEstadoServicio = e.IdEstadoServicio LEFT JOIN usuario u ON h.IdUsuario = u.IdUsuario where IdServicio = ? ; ";
 		return conexion.query(sql, new HistorialServicioRM(), idServicio);
 	}
+	public TiempoServicio calcularTiempoServicio(int idServicio) {
+        String sql = "SELECT IdServicio, MIN(FechaCambio) AS FechaInicio, MAX(FechaCambio) AS FechaFinalizacion, " +
+                     "SUM(TIME_TO_SEC(TIMEDIFF(ProximaFechaCambio, FechaCambio))) AS TiempoTotal " +
+                     "FROM (SELECT IdServicio, FechaCambio, LEAD(FechaCambio) OVER (PARTITION BY IdServicio ORDER BY FechaCambio) AS ProximaFechaCambio, IdEstadoServicio " +
+                     "FROM historialservicio WHERE IdServicio = ?) AS Subconsulta " +
+                     "WHERE IdEstadoServicio = 3 GROUP BY IdServicio";
+
+        return conexion.queryForObject(sql, new Object[]{idServicio}, (resultSet, rowNum) -> {
+            TiempoServicio tiempoServicio = new TiempoServicio();
+            tiempoServicio.setIdServicio(resultSet.getInt("IdServicio"));
+            tiempoServicio.setFechaInicio(resultSet.getTimestamp("FechaInicio").toLocalDateTime());
+            tiempoServicio.setFechaFinalizacion(resultSet.getTimestamp("FechaFinalizacion").toLocalDateTime());
+            tiempoServicio.setTiempoTotal(resultSet.getInt("TiempoTotal"));
+            return tiempoServicio;
+        });
+    }
+	
 }

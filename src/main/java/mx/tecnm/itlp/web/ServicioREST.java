@@ -1,5 +1,7 @@
 package mx.tecnm.itlp.web;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +163,20 @@ public class ServicioREST {
 	        return new ResponseEntity<>(tituloServicio, HttpStatus.OK);
 	    } catch (Exception e) {
 	        return new ResponseEntity<>("Error al obtener el título del servicio", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
+	@GetMapping("/porFecha")
+	public ResponseEntity<?> recuperarServiciosPorFecha(@RequestParam String fecha) {
+	    try {
+	        List<ServicioDTO> resultado = repo.recuperarServiciosPorFecha(fecha);
+	        if (resultado.isEmpty()) {
+	            return new ResponseEntity<>("No hay servicios en esta fecha.", HttpStatus.NOT_FOUND);
+	        } else {
+	            return new ResponseEntity<>(resultado, HttpStatus.OK);
+	        }
+	    } catch (RuntimeException e) {
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	    }
 	}
 

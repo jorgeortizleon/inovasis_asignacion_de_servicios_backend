@@ -1,5 +1,7 @@
 package mx.tecnm.itlp.bd;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -143,5 +145,36 @@ public class ServicioJDBC {
 		    String sql = "UPDATE servicio SET Factura = ?, HojaServicio = ?, hojaRemision = ?, EmpresaPoliza = ? WHERE IdServicio = ?;";
 		    conexion.update(sql, Factura, HojaServicio, HojaRemision, EmpresaPoliza, idServicio);
 		}
+		public List<ServicioDTO> recuperarServiciosPorFecha(String fecha) {
+		    try {
+		        LocalDate fechaFormateada = LocalDate.parse(fecha);
+
+		        String sql = "SELECT s.IdServicio, s.CodigoServicio, c.Codigo, c.RazonSocial, u.NombreCompleto AS UsuarioCreado, nc.NombreCompleto AS UsuarioAsignado, s.Fecha, s.tituloservicio, IFNULL(es.descripcion, 'Inicio') AS Estado, s.Descripcion, s.Factura, s.HojaServicio, s.HojaRemision, s.EmpresaPoliza " +
+		                     "FROM servicio s " +
+		                     "LEFT JOIN cliente c ON s.IdCliente = c.IdCliente " +
+		                     "LEFT JOIN usuario u ON s.IdUsuario = u.IdUsuario " +
+		                     "LEFT JOIN usuario nc ON s.IdUAsignado = nc.IdUsuario " +
+		                     "LEFT JOIN estadoservicio e ON s.IdEstadoServicio = e.IdEstadoServicio " +
+		                     "LEFT JOIN ( " +
+		                     "    SELECT hs.IdServicio, MAX(hs.fechacambio) AS UltimaFechaCambio " +
+		                     "    FROM historialservicio hs " +
+		                     "    GROUP BY hs.IdServicio " +
+		                     ") AS ultima_fecha " +
+		                     "ON s.IdServicio = ultima_fecha.IdServicio " +
+		                     "LEFT JOIN historialservicio hs " +
+		                     "ON s.IdServicio = hs.IdServicio AND ultima_fecha.UltimaFechaCambio = hs.fechacambio " +
+		                     "LEFT JOIN estadoservicio es " +
+		                     "ON hs.IdEstadoServicio = es.IdEstadoServicio " +
+		                     "WHERE DATE(s.Fecha) = ? " +
+		                     "ORDER BY s.IdServicio DESC;";
+
+		        return conexion.query(sql, new ServicioDTORM(), fechaFormateada);
+		    } catch (DateTimeParseException e) {
+		        throw new RuntimeException("Formato de fecha incorrecto. Utiliza 'yyyy-MM-dd'.", e);
+		    } catch (Exception e) {
+		        throw new RuntimeException("Error al recuperar servicios por fecha.", e);
+		    }
+		}
+
 			
 }
